@@ -29,7 +29,7 @@ if [ "$scribe" = true ]; then
     CONDA_ENVIRONMENT_FILE=environment_scribe.yaml
 fi
 
-wget -qO- https://micromamba.snakepit.net/api/micromamba/linux-64/latest | tar -xvj bin/micromamba
+curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj bin/micromamba
 if [ ! -f "conda/envs/linux/bin/python" ]; then
     bin/micromamba create --no-shortcuts -r conda -n linux -f ${CONDA_ENVIRONMENT_FILE} -y
 fi
