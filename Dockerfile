@@ -23,5 +23,6 @@ RUN apt-get update && apt-get install -y \
       && rm -rf /var/lib/apt/lists/*
 
 EXPOSE 443
+EXPOSE 2242
 
 CMD ["bin/micromamba", "run", "-r", "conda", "-n", "linux", "python", "-s", "bridge_scribe.py"]

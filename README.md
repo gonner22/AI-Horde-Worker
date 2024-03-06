@@ -187,9 +187,10 @@ docker build -t <image_name> .
 Start a Docker container based on the image using the following command:
 
 ```bash
-docker run -p 443:443 -it --name <container_name> <image_name>
+docker run -p 443:443 -p 2242:2242 -it --name <container_name> <image_name>
 ``` 
 **Note:** To interact with the Docker container, you can follow these steps:
 
 - To enter the running container, use the command `docker attach <container_name>`
 - To exit the container without stopping it, press `Ctrl + P`, followed by `Ctrl + Q`
+- If your texgen uses a port other than `2242`, you must change it and then update it in the Dockerfile and also in the bridgeData.yaml configuration file
