@@ -154,42 +154,42 @@ Many models in this project use the CreativeML OpenRAIL License.  [Please read t
 
 # Docker
 
-To run the Docker container, specify the required environment variables:
+To start the Docker container, proceed with the following steps:
 
-- HORDE_API_KEY: The API key to use for authentication.
+## 1) Copy the template configuration file:
 
-ghcr.io/Haidra-Org/ai-horde-worker:<insert release tag here>
+Use your system's file management commands or a file explorer to copy/duplicate the template file bridgeData_template.yaml and rename it bridgeData.yaml.
 
-Optional environment variables:
+## 2) Edit the configuration file:
 
-- HORDE_URL: The URL of the Horde server to connect to. Defaults to 'https://stablehorde.net'.
-- HORDE_WORKER_NAME: The name of the worker. If not set, a random worker name will be generated.
-- HORDE_WORKER_PREFIX: Used in random worker name generation, defaults to DockerWorker ${HORDE_WORKER_PREFIX}#0123097164
-- HORDE_PRIORITY_USERNAMES: A comma-separated list of usernames that should be given priority in the queue.
-- HORDE_MAX_THREADS: The maximum number of threads to use for rendering. Defaults to '1'.
-- HORDE_QUEUE_SIZE: The maximum number of jobs to queue. Defaults to '0', meaning no limit.
-- HORDE_REQUIRE_UPFRONT_KUDOS: Whether to require users to have enough kudos before they can submit jobs. Defaults to 'false'.
-- HORDE_MAX_POWER: The maximum power level to use for rendering. Defaults to '8'.
-- HORDE_NSFW: Whether to allow NSFW content. Defaults to 'true'.
-- HORDE_CENSOR_NSFW: Whether to censor NSFW content. Defaults to 'false'.
-- HORDE_BLACKLIST: A comma-separated list of tags to blacklist.
-- HORDE_CENSORLIST: A comma-separated list of tags to censor.
-- HORDE_ALLOW_IMG2IMG: Whether to allow image-to-image translation models. Defaults to 'true'.
-- HORDE_ALLOW_PAINTING: Whether to allow painting models. Defaults to 'true'.
-- HORDE_ALLOW_UNSAFE_IP: Whether to allow unsafe IP addresses. Defaults to 'true'.
-- HORDE_ALLOW_POST_PROCESSING: Whether to allow post-processing. Defaults to 'true'.
-- HORDE_ALLOW_CONTROLNET: Whether to allow ControlNet. Defaults to 'false'.
-- HORDE_DYNAMIC_MODELS: Whether to use dynamic models. Defaults to 'true'.
-- HORDE_NUMBER_OF_DYNAMIC_MODELS: The number of dynamic models to use. Defaults to '3'.
-- HORDE_MAX_MODELS_TO_DOWNLOAD: The maximum number of models to download. Defaults to '10'.
-- HORDE_STATS_OUTPUT_FREQUENCY: The frequency (in seconds) to output stats. Defaults to '30'.
-- HORDE_NATAILI_CACHE_HOME: The location of the cache directory. Defaults to '/cache'.
-- HORDE_LOW_VRAM_MODE: Whether to use low VRAM mode. Defaults to 'true'.
-- HORDE_ENABLE_MODEL_CACHE: Whether to enable model caching. Defaults to 'false'.
-- HORDE_ALWAYS_DOWNLOAD: Whether to always download models. Defaults to 'false'.
-- HORDE_RAY_TEMP_DIR: The location of the Ray temporary directory. Defaults to '/cache/ray'.
-- HORDE_DISABLE_VOODOO: Whether to disable Voodoo. Defaults to 'false'.
-- HORDE_DISABLE_TERMINAL_UI: Whether to disable the terminal UI. Defaults to 'false'.
-- HORDE_MODELS_TO_LOAD: A comma-separated list of models to load. Defaults to ['stable_diffusion_2.1', 'stable_diffusion'].
-- HORDE_MODELS_TO_SKIP: A comma-separated list of models to skip. Defaults to ['stable_diffusion_inpainting'].
-- HORDE_FORMS: A comma-separated list of forms to use. Defaults to ['caption', 'nsfw'].
+Open the bridgeData.yaml file in a text editor of your choice (such as nano, vim, Notepad, TextEdit, etc.).
+Modify the following parameters as needed:
+
+- `api_key`: Your horde API key. [Register here](https://api.aipowergrid.io/register) to acquire one.
+- `max_threads`: specifies how many concurrent requests your worker should run. Higher values require more VRAM.
+- `scribe_name`: your custom worker name.
+- `kai_url`: the Aphrodite URL. By default, this should be `http://localhost:2242`.
+- `max_length`: this specifies the max number of tokens every request can make. A good value is `512`.
+- `max_context_length`: The maximum context length of the horde worker. Set this to your model's default max length, or whatever value you passed to `--max-model-len` when launching the engine.
+
+
+## 3) Build the Docker image:
+
+Open a terminal or command prompt and navigate to the directory containing your Dockerfile.
+Run the command to build a Docker image using the Dockerfile:
+
+```bash
+docker build -t <image_name> .
+``` 
+
+## 4) Run the Docker container:
+
+Start a Docker container based on the image using the following command:
+
+```bash
+docker run -p 443:443 -it --name <container_name> <image_name>
+``` 
+**Note:** To interact with the Docker container, you can follow these steps:
+
+- To enter the running container, use the command `docker attach <container_name>`
+- To exit the container without stopping it, press `Ctrl + P`, followed by `Ctrl + Q`
