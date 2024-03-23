@@ -152,8 +152,10 @@ suppress_speed_warnings: false
 
 # The name to use when running a scribe worker. Will default to `worker_name` if not set
 scribe_name: "An Awesome Scribe"
-# The KoboldAI Client API URL
-kai_url: "http://localhost:2242"
+# The KoboldAI Client API URL 
+# By default, this should be http://<container_name>:7860, in our template is set to: http://aphrodite-engine:7860. 
+# Attention: the 'container_name' field refers to the name of the Aphrodite container.
+kai_url: "http://aphrodite-engine:7860"
 # The max amount of tokens to generate with this worker 
 max_length: 80
 # The max tokens to use from the prompt
