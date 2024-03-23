@@ -168,12 +168,21 @@ Modify the following parameters as needed:
 - `api_key`: Your horde API key. [Register here](https://api.aipowergrid.io/register) to acquire one.
 - `max_threads`: specifies how many concurrent requests your worker should run. Higher values require more VRAM.
 - `scribe_name`: your custom worker name.
-- `kai_url`: the Aphrodite URL. By default, this should be `http://localhost:2242`.
+- `kai_url`: the Aphrodite URL. By default, this should be `http://<container_name>:7860, in our template is set to: http://aphrodite-engine:7860`. Attention: the 'container_name' field refers to the name of the Aphrodite container.
 - `max_length`: this specifies the max number of tokens every request can make. A good value is `512`.
 - `max_context_length`: The maximum context length of the horde worker. Set this to your model's default max length, or whatever value you passed to `--max-model-len` when launching the engine.
 
 
-## 3) Build the Docker image:
+## 3) Create a Docker Network
+
+In this step, we will create a Docker network to allow communication between the various 
+containers in our ecosystem. Execute the following command in your terminal:
+
+```bash
+docker network create <network_name>
+``` 
+
+## 4) Build the Docker image:
 
 Open a terminal or command prompt and navigate to the directory containing your Dockerfile.
 Run the command to build a Docker image using the Dockerfile:
@@ -187,10 +196,10 @@ docker build -t <image_name> .
 Start a Docker container based on the image using the following command:
 
 ```bash
-docker run -p 443:443 -p 2242:2242 -it --name <container_name> <image_name>
+docker run -it -p 443:443 --network <network_name> --name  <container_name> <image_name>
 ``` 
 **Note:** To interact with the Docker container, you can follow these steps:
 
 - To enter the running container, use the command `docker attach <container_name>`
 - To exit the container without stopping it, press `Ctrl + P`, followed by `Ctrl + Q`
-- If your texgen uses a port other than `2242`, you must change it and then update it in the Dockerfile and also in the bridgeData.yaml configuration file
+- If your Texgen application utilizes ports other than 7860 for internal Docker-to-Docker communication and 2242 for internal Docker-to-host communication, you will need to adjust them accordingly. After modifying these ports, ensure to update them both in the Dockerfile and the bridgeData.yaml configuration file.
